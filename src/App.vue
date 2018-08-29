@@ -8,6 +8,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import store from './store'
+import axios from 'axios'
 
 export default{
   name: 'app',

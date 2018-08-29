@@ -8,5 +8,10 @@ export var router = new VueRouter({
     path: '/',
     name: 'Register',
     component: resolve => require(['../pages/Register'], resolve)
-  }]
+  },{
+    path: '/Login',
+    name: 'Login',
+    component: resolve => require(['../pages/Login'], resolve)
+  }
+]
 })

@@ -22,7 +22,7 @@
               <span>记住密码</span>
               </div>
               <div class="forgetPassword">
-              <span>忘记密码?</span>
+              <router-link to='/Login'><span>忘记密码?</span></router-link>
               </div>
             </li>
             <li>
@@ -39,6 +39,7 @@
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
+import axios from 'axios'
 
 export default {
   name: "register",
@@ -76,9 +77,31 @@ export default {
     submitForm(formName) {
       if (this.checked) {
         this.setAccountMsg(this.ruleForm.user, this.ruleForm.pwd);
+        getApi()
       } else {
         this.setAccountMsg('', '');
       }
+       function getApi(){
+         console.log('1')
+      return new Promise(function(resolve,reject){
+        axios({
+          method :'POST',
+          header : {
+            UUID : 'e10adc3949ba59abbe56e057f20f883e'    
+          },
+          url : "https://derucci.net/app/login.api",
+          params : {
+            account : '18080028',
+            password : 'e10adc3949ba59abbe56e057f20f883e'    
+          }
+        }).then(function(response){
+          if(response){
+            console.log(response)
+          }else{  
+          }
+        })
+      })
+    }
     },
     //设置cookie
     setAccountMsg(uname, upwd) {
@@ -96,6 +119,7 @@ export default {
       this.ruleForm.user = trimName
       this.ruleForm.pwd = oldaccountMsg['pwd']
     }
+   
   }
 };
 </script>
@@ -214,7 +238,11 @@ export default {
             float: right;
             color: #909090;
             cursor: pointer;
+            a{
+              color: #909090;
+            }
           }
+         
         }
         button {
           width: 380px;
