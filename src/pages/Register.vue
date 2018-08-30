@@ -5,7 +5,7 @@
         <p>慕思经销商平台</p>
         <form action="">
           <ul>
-            <li  >
+            <li>
               <label for="userName" v-bind:class="`${usname}`"><span>账号</span></label>
               <input type="text" id="userName"  v-bind:class="`${username}`" 
                 v-on:focus='focusName()'  @blur="blurName()"
@@ -125,11 +125,11 @@ export default {
         axios({
           method :'POST',
           header : {
-            UUID : 'e10adc3949ba59abbe56e057f20f883e'    
+            'UUID' : 'e10adc3949ba59abbe56e057f20f883e'    
           },
-          url : "https://derucci.net/app/login.api",
+          url : "http://172.16.10.141/app/login.api",
           params : {
-            account : 18080028,
+            account : '18080028',
             password : 'e10adc3949ba59abbe56e057f20f883e'    
           }
         }).then(function(response){
