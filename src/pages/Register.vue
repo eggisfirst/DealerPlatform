@@ -1,18 +1,20 @@
 <template>
   <div class="register">
-    <div class="logIn">
+    <div class="logIn" >
       <div class="content">
         <p>慕思经销商平台</p>
         <form action="">
           <ul>
-            <li class="name" v-on:click=inputBox1() >
-              <label for="userName"><span>账号</span></label>
+            <li  >
+              <label for="userName" v-bind:class="`${usname}`"><span>账号</span></label>
               <input type="text" id="userName"  v-bind:class="`${username}`" 
-              v-model="ruleForm.user" maxlength="15">
+                v-on:focus='focusName()'  @blur="blurName()"
+                v-model="ruleForm.user" maxlength="15" autocomplete="off" >
             </li>
-            <li class="password" v-on:click=inputBox2()>
-              <label for="userPassword" ><span>密码</span></label>
+            <li>
+              <label for="userPassword" v-bind:class="`${uspwd}`"><span>密码</span></label>
               <input type="password" id="userPassword" v-bind:class="`${userPassword}`" 
+                @focus ='focusPwd()'  @blur="blurPwd()"
               v-model="ruleForm.pwd" maxlength="15">
             </li>
             <li class="tips clearfix">
@@ -47,6 +49,8 @@ export default {
     return {
       username: "userName",
       userPassword: "userPassword",
+      usname:'usname',
+      uspwd:'uspwd',
       ruleForm:{
         user:'',
         pwd:''
@@ -59,15 +63,49 @@ export default {
       this.getAccountMsg();
       if(this.ruleForm.pwd.length){
         this.username = 'userName1'
+        this.usname = 'usname2'
         this.userPassword = 'userPassword1'
+        this.uspwd = 'uspwd2'
       }
     },
   methods: {
-    inputBox1: function() {
-      this.username = "userName1";
+    //光标获得焦点，失去焦点触发的事件。
+    focusName : function(){
+      if(this.ruleForm.user.length){
+        this.username = 'userName1'
+        this.usname = 'usname2'
+      }else{
+        this.username = 'userName1'
+        this.usname = 'usname1'
+      }  
     },
-    inputBox2: function() {
-      this.userPassword = "userPassword1";  
+    focusPwd : function(){
+      if(this.ruleForm.pwd.length){
+        this.userPassword = 'userPassword1'
+        this.uspwd = 'uspwd2'
+      }else{
+        this.userPassword = 'userPassword1'
+        this.uspwd = 'uspwd1'
+      }
+      
+    },
+    blurName:function(){
+      if(this.ruleForm.user.length){
+        this.username = 'userName1'
+        this.usname = 'usname2'
+      }else{
+        this.username = 'userName'
+        this.usname = 'usname'
+      }
+    },
+    blurPwd:function(){
+      if(this.ruleForm.pwd.length){
+        this.userPassword = 'userPassword1'
+        this.uspwd = 'uspwd2'
+      }else{
+        this.userPassword = 'userPassword'
+        this.uspwd = 'uspwd'
+      }
     },
     //去除input输入框的左边空格
     trimStr: function(str) {
@@ -83,7 +121,7 @@ export default {
       }
        function getApi(){
          console.log('1')
-      return new Promise(function(resolve,reject){
+       return new Promise(function(resolve,reject){
         axios({
           method :'POST',
           header : {
@@ -91,7 +129,7 @@ export default {
           },
           url : "https://derucci.net/app/login.api",
           params : {
-            account : '18080028',
+            account : 18080028,
             password : 'e10adc3949ba59abbe56e057f20f883e'    
           }
         }).then(function(response){
@@ -157,7 +195,7 @@ export default {
     opacity: 0.9;
     .content {
       width: 380px;
-      height: 344px;
+      height: 344px;  
       p {
         font-size: 30px;
         line-height: 34px;
@@ -165,10 +203,7 @@ export default {
         margin-bottom: 67px;
       }
       ul {
-        .name,
-        .password {
-          height: 59px;
-        }
+        position: relative;
         .userName,
         .userPassword {
           display: block;
@@ -177,32 +212,104 @@ export default {
           height: 40px;
           font-size: 18px;
           font-family: "MicrosoftYaHei";
-          margin-top: -35px;
-          cursor: default;
-
+          margin-top: -20px;
         }
-        .userName1,
-        .userPassword1 {
+        .userName{
+          margin-bottom:40px;
+        }
+        //span的位置改变
+        .usname{
+          position: absolute;
+          left: 1px;
+          top: 5px;
+          animation: moveDown1 .5s;
+          @keyframes moveDown1 {
+            from{
+              top:-20px
+            }
+            to{
+              top: 5px
+            }
+          }
+        }
+        //当输入框有值，不用动画。
+        .usname2{
+          position: absolute;
+          left: 1px;
+          top: -20px
+        }
+        .uspwd2{
+          position: absolute;
+          left: 1px;
+          top: 40px
+        }
+        .uspwd{
+          position: absolute;
+          left: 1px;
+          top: 65px;
+          animation: moveDown .5s;
+          @keyframes moveDown {
+            from{
+              top:40px
+            }
+            to{
+              top: 65px
+            }
+          }
+        }
+        .usname1{
+          position: absolute;
+          left: 1px;
+          top: -20px;
+           animation: moveUp1 .5s;
+          @keyframes moveUp1 {
+            from{
+              top:5px
+            }
+            to{
+              top: -20px
+            }
+          }
+        }
+        .uspwd1{
+          position: absolute;
+          left: 1px;
+          top: 40px;
+           animation: moveUp .5s;
+          @keyframes moveUp {
+            from{
+              top:65px
+            }
+            to{
+              top: 40px
+            }
+          }
+        }
+        //获得光标样式改变
+        .userName1{
           display: block;
           border-bottom: 2px solid #ed4545;
           width: 380px;
+          height: 40px;
           font-size: 18px;
           font-family: "MicrosoftYaHei";
-          animation: move 0.5s;
-          @keyframes move {
-            from {
-              margin-top: -10px;
-            }
-            to {
-              margin-top: 0px;
-            }
-          }
+          margin-top: -20px;
+          margin-bottom:40px;
+        }
+        .userPassword1{
+          display: block;
+          border-bottom: 2px solid #ed4545;
+          width: 380px;
+          height: 40px;
+          font-size: 18px;
+          font-family: "MicrosoftYaHei";
+          margin-top: -20px;
         }
         span {
           font-family: "MicrosoftYaHei";
           font-size: 18px;
           letter-spacing: 3px;
-          color: #909090;
+          color: #909090;   
         }
         .tips {
           margin-top: 10px;
